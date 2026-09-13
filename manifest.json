@@ -1,7 +1,7 @@
 {
 	"id": "paperweight",
 	"name": "PaperWeight",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"minAppVersion": "1.4.16",
 	"description": "Manages and Preserves fold states efficiently.",
 	"author": "AZ",

@@ -119,7 +119,6 @@ export default class PaperClipPlugin extends Plugin {
 					pasteSelection.head.line,
 				);
 
-				_evt.preventDefault();
 				window.setTimeout(() => {
 					// How far the pasted content landed from where it was originally
 					// copied. Every fold's line numbers get shifted by this same
