@@ -100,6 +100,7 @@ export default class PaperClipPlugin extends Plugin {
 	private registerPasteListener() {
 		this.registerEvent(
 			this.app.workspace.on('editor-paste', (_evt: ClipboardEvent, editor: Editor) => {
+				if (_evt.defaultPrevented) return;
 				const copiedInfo = this.copiedFoldInfo;
 				if (!copiedInfo || copiedInfo.folds.length === 0) return;
 
@@ -118,7 +119,8 @@ export default class PaperClipPlugin extends Plugin {
 					pasteSelection.head.line,
 				);
 
-				setTimeout(() => {
+				_evt.preventDefault();
+				window.setTimeout(() => {
 					// How far the pasted content landed from where it was originally
 					// copied. Every fold's line numbers get shifted by this same
 					// amount below, so a fold that was "line 10 to 15" in the original
@@ -274,7 +276,7 @@ export default class PaperClipPlugin extends Plugin {
 		// Same setTimeout(0) tradeoff as the paste listener above.
 		// Accepted risk: on a very slow indent operation, this could
 		// no-op instead of restoring folds, rather than crash.
-		setTimeout(() => {
+		window.setTimeout(() => {
 			const newState = cmView.state;
 			const doc = newState.doc;
 
