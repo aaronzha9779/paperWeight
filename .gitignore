@@ -8,6 +8,7 @@
 # npm
 node_modules
 
+dist/
 
 *.map
 
@@ -15,21 +16,3 @@ node_modules
 data.json
 
 .DS_Store
-
-# Build artifacts
-build/
-cmake-build-*/
-*.o
-*.obj
-*.exe
-*.out
-
-# CMake
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-Makefile
-compile_commands.json
-
-
-
