@@ -24,8 +24,7 @@ interface CopiedFoldInfo {
 
 
 export default class PaperClipPlugin extends Plugin {
-	// Snapshot of fold state taken at copy-time. Single-slot (not a
-	// map/stack) since Obsidian only tracks one active clipboard
+	// Snapshot of fold state taken at copy-time. Single-slot since Obsidian only tracks one active clipboard
 	// selection at a time.
 	private copiedFoldInfo: CopiedFoldInfo | null = null;
 
@@ -59,7 +58,7 @@ export default class PaperClipPlugin extends Plugin {
 
 	// Feature 1: Paste-preserves-fold-state
 
-	//  Whenever user copies text, records which headings inside the
+	//  Whenever the user copies text, records which headings inside the
 	//  copied selection were folded, along with the selection's starting
 	//  line. 
 
@@ -104,10 +103,7 @@ export default class PaperClipPlugin extends Plugin {
 				const copiedInfo = this.copiedFoldInfo;
 				if (!copiedInfo || copiedInfo.folds.length === 0) return;
 
-				// Obsidian's public Editor type doesn't expose CM6's EditorView,
-				// but `.cm` is the real property at runtime. We need direct CM6
-				// access because fold dispatch isn't available through the Obsidian
-				// wrapper API.
+
 				const cm = this.getCM(editor);
 				if (!cm) return;
 
@@ -216,7 +212,7 @@ export default class PaperClipPlugin extends Plugin {
 				if (foldableRanges.length === 0) return;
 
 				// Direction is decided by whether ANY of these ranges are
-				// currently folded — if so, unfold everything in the
+				// currently folded, if so, unfold everything in the
 				// selection; otherwise fold everything.
 				const currentlyFolded = foldedRanges(state);
 				const isAnyFolded = foldableRanges.some((r) => {
@@ -237,8 +233,6 @@ export default class PaperClipPlugin extends Plugin {
 	}
 
 
-	 //Finds the Obsidian `Editor` whose underlying CM6 view is `cmView`.
-
 	private findEditorForView(cmView: EditorView): Editor | null {
 		let found: Editor | null = null;
 		this.app.workspace.iterateAllLeaves((leaf) => {
@@ -258,7 +252,7 @@ export default class PaperClipPlugin extends Plugin {
 	): boolean {
 		const state = cmView.state;
 
-		// Capture folds as LINE numbers, not character offsets.
+		// Capture folds as line numbers instead of character offsets
 		const savedFoldLines: { fromLine: number; toLine: number }[] = [];
 		const ranges = foldedRanges(state);
 		ranges.between(0, state.doc.length, (from: number, to: number) => {
@@ -273,8 +267,6 @@ export default class PaperClipPlugin extends Plugin {
 		editor.exec(command);
 
 		// Same setTimeout(0) tradeoff as the paste listener above.
-		// Accepted risk: on a very slow indent operation, this could
-		// no-op instead of restoring folds, rather than crash.
 		window.setTimeout(() => {
 			const newState = cmView.state;
 			const doc = newState.doc;
@@ -296,6 +288,6 @@ export default class PaperClipPlugin extends Plugin {
 			cmView.dispatch({ effects });
 		}, 0);
 
-		return true; // tell CM6 we've fully handled this key
+		return true;
 	}
 }
