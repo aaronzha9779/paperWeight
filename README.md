@@ -2,7 +2,7 @@
 
 Keeps your folded headings completely folded, even after copy/paste or indenting.
 
-## The problem: 
+## The problem 
 Obsidian unfolds everything when you paste text, and re-indenting a folded
 section can knock its fold state loose. If you rely on folded headings to
 keep long notes organized, this gets annoying fast.
@@ -32,7 +32,7 @@ in the document.
 <img width="800" height="469" alt="shiftTab" src="https://github.com/user-attachments/assets/812250d7-7344-4711-ae9f-eab7b787ddcb" />
 
 
-## Installation: 
+## Installation 
 
 ### From Obsidian 
 1. Open **Settings → Community plugins**
